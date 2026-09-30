@@ -25,3 +25,8 @@ scratch/
 multipleof9.*
 tempCodeRunnerFile.*
 *.exe
+
+## Node / Playwright
+node_modules/
+playwright-report/
+test-results/
