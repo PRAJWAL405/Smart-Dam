@@ -5,6 +5,7 @@ namespace DamControlSystem.Tests;
 
 public class DamMetadataTests
 {
+    // Tests that the central dam registry contains the four monitored dams (Erai, Khadakwasla, Panshet, Mulshi)
     [Fact]
     public void GetRegistry_ContainsExpectedDams()
     {
@@ -16,6 +17,7 @@ public class DamMetadataTests
         Assert.True(registry.ContainsKey("mulshi"));
     }
 
+    // Tests that requesting metadata for an unknown dam ID safely falls back to the default Erai dam
     [Fact]
     public void Get_UnknownDam_FallsBackToErai()
     {
@@ -23,6 +25,7 @@ public class DamMetadataTests
         Assert.Equal("erai", dam.Id);
     }
 
+    // Tests that each registered dam has accurate physical parameters including maximum capacity and safe discharge limits
     [Theory]
     [InlineData("erai", 226500000.0, 800.0)]
     [InlineData("khadakwasla", 56000000.0, 500.0)]

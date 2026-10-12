@@ -1,0 +1,84 @@
+================================================================================
+SMART DAM CONTROL SYSTEM — STQA TEST EXECUTION & REPORTING GUIDE
+================================================================================
+
+This document lists all terminal commands for executing unit, integration, and
+boundary STQA test suites and generating structured HTML reports.
+
+--------------------------------------------------------------------------------
+1. QUICK START: RUN ALL TESTS & AUTO-GENERATE HTML REPORT
+--------------------------------------------------------------------------------
+
+In PowerShell:
+    .\run-tests.ps1
+
+In Windows Command Prompt:
+    run-tests.bat
+
+Or using standard dotnet CLI:
+    dotnet test DamControlSystem.sln --logger "trx;LogFileName=test_results.trx"
+
+After running, the comprehensive HTML report is generated at:
+    TestReport.html
+
+To view the HTML report in your default browser:
+    Start-Process TestReport.html
+
+--------------------------------------------------------------------------------
+2. RUNNING SPECIFIC TEST MODULES
+--------------------------------------------------------------------------------
+
+Run only Hydrological Runoff & Control Engine Tests:
+    dotnet test DamControlSystem.sln --filter "FullyQualifiedName~HydrologicalEngine"
+
+Run only AI Suggestion Engine & Risk Matrix Tests:
+    dotnet test DamControlSystem.sln --filter "FullyQualifiedName~AiSuggestion"
+
+Run only Dam Metadata & Multi-Reservoir Topology Tests:
+    dotnet test DamControlSystem.sln --filter "FullyQualifiedName~DamMetadata"
+
+Run only Mathematical Formula & Gate Actuator Tests:
+    dotnet test DamControlSystem.sln --filter "FullyQualifiedName~RunoffFormula"
+
+Run only End-to-End RESTful API Integration Tests:
+    dotnet test DamControlSystem.sln --filter "FullyQualifiedName~ApiIntegration"
+
+--------------------------------------------------------------------------------
+3. RUNNING INDIVIDUAL TEST CASES
+--------------------------------------------------------------------------------
+
+Run a specific test by function name:
+    dotnet test DamControlSystem.sln --filter "FullyQualifiedName~Evaluate_SafeConditions_NoOutflowAndNoFloodAlert"
+
+Run all tests for a specific dam (e.g., Khadakwasla):
+    dotnet test DamControlSystem.sln --filter "FullyQualifiedName~Khadakwasla"
+
+Run with detailed assertion output on the console:
+    dotnet test DamControlSystem.sln --logger "console;verbosity=detailed"
+
+--------------------------------------------------------------------------------
+4. GENERATING DETAILED TRX TEST LOGS
+--------------------------------------------------------------------------------
+
+Save test execution results to an XML/TRX log file:
+    dotnet test DamControlSystem.sln --logger "trx;LogFileName=test_results.trx"
+
+Location of generated logs:
+    tests/DamControlSystem.Tests/TestResults/test_results.trx
+    TestReport.html
+
+--------------------------------------------------------------------------------
+5. RUNNING CODE COVERAGE ANALYSIS
+--------------------------------------------------------------------------------
+
+Collect test coverage data using Coverlet:
+    dotnet test DamControlSystem.sln --collect:"XPlat Code Coverage"
+
+================================================================================
+STQA PROJECT TEST SUITE BREAKDOWN (78 TEST CASES):
+  - Module M1: Dam Metadata & Topology Registry (18 tests)
+  - Module M2 & M3: Hydrological Runoff Calculations & Control Logic (14 tests)
+  - Module M5: AI Fuzzy Advisory & Risk Matrix (12 tests)
+  - Module M7: Hydraulic Gate Aperture & Actuators (12 tests)
+  - Module M8 & M9: End-to-End REST API Endpoints & Authority Workflow (22 tests)
+================================================================================

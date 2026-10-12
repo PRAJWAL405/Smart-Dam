@@ -8,10 +8,6 @@ using Xunit;
 
 namespace DamControlSystem.Tests;
 
-// ============================================================
-// BVA & EXTENDED HYDROLOGICAL ENGINE TESTS
-// TC-M3-04 through TC-M3-10, TC-M7-01, TC-M7-02
-// ============================================================
 public class HydrologicalEngineExtendedTests
 {
     private (SmartDamDbContext db, DamControlEngineService engine) CreateService(string dbName)
@@ -29,7 +25,7 @@ public class HydrologicalEngineExtendedTests
         return (dbContext, engine);
     }
 
-    // TC-M3-06 — Zero rainfall → projected inflow = 0
+    // Tests that zero rainfall results in zero projected inflow and no alert
     [Fact]
     public async Task Evaluate_ZeroRainfall_InflowIsZero_NoAlert()
     {
@@ -43,58 +39,52 @@ public class HydrologicalEngineExtendedTests
         Assert.Contains("safe operational parameters", result.StatusMessage);
     }
 
-    // TC-M3-04 — BVA: projected volume exactly AT warning threshold → NO discharge
-    // Condition is strictly >threshold, so AT the threshold no discharge triggers
+    // Tests boundary condition where projected volume is exactly at warning threshold without triggering proactive discharge
     [Fact]
     public async Task Evaluate_ProjectedVolumeExactlyAtThreshold_NoDischarge()
     {
         var (_, engine) = CreateService(nameof(Evaluate_ProjectedVolumeExactlyAtThreshold_NoDischarge));
-        var threshold = DamMetadata.Get("erai").WarningThresholdM3; // 192,525,000
+        var threshold = DamMetadata.Get("erai").WarningThresholdM3;
 
-        // volume = threshold, rainfall = 0mm → projected = threshold exactly
         var result = await engine.EvaluateAndExecuteControlLogicAsync("erai", threshold, 0.0);
 
-        // projectedVolume > threshold is FALSE at equality → no discharge
         Assert.False(result.FloodAlertTriggered);
         Assert.Equal(0.0, result.RecommendedOutflowM3s);
         Assert.Contains("safe operational parameters", result.StatusMessage);
     }
 
-    // TC-M3-05 — BVA: projected volume 1 m³ ABOVE threshold → minimal discharge triggered
+    // Tests boundary condition where projected volume is 1 m³ above threshold, triggering minimal proactive discharge
     [Fact]
     public async Task Evaluate_ProjectedVolumeOneAboveThreshold_MinimalDischargeTriggered()
     {
         var (_, engine) = CreateService(nameof(Evaluate_ProjectedVolumeOneAboveThreshold_MinimalDischargeTriggered));
         var meta = DamMetadata.Get("erai");
-        double volumeJustAbove = meta.WarningThresholdM3 + 1.0; // 192,525,001 m³
+        double volumeJustAbove = meta.WarningThresholdM3 + 1.0;
 
         var result = await engine.EvaluateAndExecuteControlLogicAsync("erai", volumeJustAbove, 0.0);
 
-        // Required outflow = 1 / 86400 ≈ 0.0000116 m³/s — well below 800
         Assert.False(result.FloodAlertTriggered);
         Assert.True(result.RecommendedOutflowM3s > 0.0);
         Assert.True(result.RecommendedOutflowM3s < meta.MaxSafeDischargeM3s);
         Assert.Contains("Optimal proactive discharge", result.StatusMessage);
     }
 
-    // TC-M3-08 — State Transition: NOMINAL → WARNING
+    // Tests state transition from NOMINAL to WARNING state as water levels rise
     [Fact]
     public async Task Evaluate_StateTransition_NominalToWarning()
     {
         var (_, engine) = CreateService(nameof(Evaluate_StateTransition_NominalToWarning));
 
-        // NOMINAL (100M m³, 10mm rain)
         var nominalResult = await engine.EvaluateAndExecuteControlLogicAsync("erai", 100_000_000.0, 10.0);
         Assert.Equal(0.0, nominalResult.RecommendedOutflowM3s);
         Assert.False(nominalResult.FloodAlertTriggered);
 
-        // WARNING (190M m³, 20mm rain)
         var warningResult = await engine.EvaluateAndExecuteControlLogicAsync("erai", 190_000_000.0, 20.0);
         Assert.True(warningResult.RecommendedOutflowM3s > 0.0);
         Assert.False(warningResult.FloodAlertTriggered);
     }
 
-    // TC-M3-09 — State Transition: WARNING → CRITICAL
+    // Tests state transition from WARNING to CRITICAL state under heavy rainfall
     [Fact]
     public async Task Evaluate_StateTransition_WarningToCritical()
     {
@@ -109,7 +99,7 @@ public class HydrologicalEngineExtendedTests
         Assert.Equal(meta.MaxSafeDischargeM3s, criticalResult.RecommendedOutflowM3s);
     }
 
-    // TC-M7-01 — Gate = 0% when outflow = 0
+    // Tests that gate open percentage is 0% when outflow is zero
     [Fact]
     public async Task Evaluate_GatePercentage_IsZero_WhenOutflowIsZero()
     {
@@ -123,13 +113,12 @@ public class HydrologicalEngineExtendedTests
         Assert.Equal(0.0, state.GateOpenPercentage);
     }
 
-    // TC-M7-02 — Gate = 100% when outflow = max safe discharge (emergency)
+    // Tests that gate open percentage is 100% when outflow reaches maximum safe discharge
     [Fact]
     public async Task Evaluate_GatePercentage_IsHundred_WhenOutflowIsMaxSafeDischarge()
     {
         var (db, engine) = CreateService(nameof(Evaluate_GatePercentage_IsHundred_WhenOutflowIsMaxSafeDischarge));
 
-        // Emergency: 192M + 350mm → outflow capped at 800 m³/s
         await engine.EvaluateAndExecuteControlLogicAsync("erai", 192_000_000.0, 350.0);
         var state = await db.ReservoirStates.FirstOrDefaultAsync();
 
@@ -138,14 +127,13 @@ public class HydrologicalEngineExtendedTests
         Assert.Equal(100.0, state.GateOpenPercentage);
     }
 
-    // TC-M3-18 — Khadakwasla uses its own threshold (47.6M m³)
+    // Tests that Khadakwasla dam uses its specific threshold and safe discharge parameters
     [Fact]
     public async Task Evaluate_Khadakwasla_UsesOwnThreshold_NotErais()
     {
         var (_, engine) = CreateService(nameof(Evaluate_Khadakwasla_UsesOwnThreshold_NotErais));
         var meta = DamMetadata.Get("khadakwasla");
 
-        // Just above Khadakwasla's threshold: 47,600,001 m³, no rain
         var result = await engine.EvaluateAndExecuteControlLogicAsync(
             "khadakwasla", meta.WarningThresholdM3 + 1.0, 0.0);
 
@@ -155,13 +143,12 @@ public class HydrologicalEngineExtendedTests
         Assert.False(result.FloodAlertTriggered);
     }
 
-    // TC-M3-19 — Panshet dam engine with its own parameters
+    // Tests that Panshet dam evaluates safe water conditions correctly under its capacity limits
     [Fact]
     public async Task Evaluate_Panshet_SafeConditions_NoAlert()
     {
         var (_, engine) = CreateService(nameof(Evaluate_Panshet_SafeConditions_NoAlert));
 
-        // 100M m³ with no rain → well below Panshet's 249.9M threshold
         var result = await engine.EvaluateAndExecuteControlLogicAsync("panshet", 100_000_000.0, 0.0);
 
         Assert.Equal("panshet", result.DamId);
@@ -169,26 +156,21 @@ public class HydrologicalEngineExtendedTests
         Assert.Equal(0.0, result.RecommendedOutflowM3s);
     }
 
-    // TC-M3-20 — Mulshi emergency capped at Mulshi's own 1500 m³/s max
+    // Tests that Mulshi dam emergency outflow is capped at its maximum safe discharge limit of 1500 m3/s
     [Fact]
     public async Task Evaluate_Mulshi_EmergencyDischarge_CappedAtOwnMaxSafeDischarge()
     {
         var (_, engine) = CreateService(nameof(Evaluate_Mulshi_EmergencyDischarge_CappedAtOwnMaxSafeDischarge));
         var meta = DamMetadata.Get("mulshi");
 
-        // 500M m³ + 500mm → extreme emergency for Mulshi
         var result = await engine.EvaluateAndExecuteControlLogicAsync("mulshi", 500_000_000.0, 500.0);
 
         Assert.Equal("mulshi", result.DamId);
         Assert.True(result.FloodAlertTriggered);
-        Assert.Equal(meta.MaxSafeDischargeM3s, result.RecommendedOutflowM3s); // Capped at 1500 m³/s
+        Assert.Equal(meta.MaxSafeDischargeM3s, result.RecommendedOutflowM3s);
     }
 }
 
-// ============================================================
-// AI SUGGESTION SERVICE — EXTENDED BVA & BOUNDARY TESTS
-// TC-M5-02 through TC-M5-08, TC-M5-10, TC-M5-13
-// ============================================================
 public class AiSuggestionServiceExtendedTests
 {
     private (SmartDamDbContext db, AiSuggestionService service) CreateService(string dbName)
@@ -204,7 +186,7 @@ public class AiSuggestionServiceExtendedTests
         return (dbContext, service);
     }
 
-    // TC-M5-02 — Volume exactly 95% → CRITICAL
+    // Tests that reservoir volume at 95% capacity returns a CRITICAL risk level
     [Fact]
     public async Task GenerateRecommendation_VolumeAt95Percent_ReturnsCritical()
     {
@@ -223,7 +205,7 @@ public class AiSuggestionServiceExtendedTests
         Assert.True(response.ConfidenceScore >= 98.0);
     }
 
-    // TC-M5-04 — Volume exactly 83% → WARNING
+    // Tests that reservoir volume at 83% capacity returns a WARNING risk level
     [Fact]
     public async Task GenerateRecommendation_VolumeAt83Percent_ReturnsWarning()
     {
@@ -241,7 +223,7 @@ public class AiSuggestionServiceExtendedTests
         Assert.Equal("WARNING", response.RiskLevel);
     }
 
-    // TC-M5-05 — Volume at 82.9% → NOMINAL (below 83% boundary)
+    // Tests that reservoir volume at 82.9% capacity (below 83% threshold) returns a NOMINAL risk level
     [Fact]
     public async Task GenerateRecommendation_VolumeAt82Point9Percent_ReturnsNominal()
     {
@@ -264,7 +246,7 @@ public class AiSuggestionServiceExtendedTests
         Assert.Equal("NOMINAL", response.RiskLevel);
     }
 
-    // TC-M5-03 — Volume at 94.9% → WARNING (below 95%, above 83%)
+    // Tests that reservoir volume at 94.9% capacity (below 95% threshold) returns a WARNING risk level
     [Fact]
     public async Task GenerateRecommendation_VolumeAt94Point9Percent_ReturnsWarning()
     {
@@ -287,7 +269,7 @@ public class AiSuggestionServiceExtendedTests
         Assert.Equal("WARNING", response.RiskLevel);
     }
 
-    // TC-M5-10 — All risk levels return non-empty SuggestedActions
+    // Tests that all evaluated risk levels (Critical, Warning, Nominal) provide non-empty suggested action lists
     [Theory]
     [InlineData(true, 0.95, "CRITICAL")]
     [InlineData(false, 0.88, "WARNING")]
@@ -319,13 +301,12 @@ public class AiSuggestionServiceExtendedTests
         Assert.True(response.ConfidenceScore > 0.0);
     }
 
-    // TC-M5-13 — No prior DB data → returns default NOMINAL (no crash)
+    // Tests that AI service defaults safely to NOMINAL status when no prior database telemetry exists
     [Fact]
     public async Task GenerateRecommendation_NoPriorData_DefaultsToNominal()
     {
         var (_, service) = CreateService(nameof(GenerateRecommendation_NoPriorData_DefaultsToNominal));
 
-        // Default state is 80% capacity → below 83% → NOMINAL
         var response = await service.GenerateRecommendationAsync("erai");
 
         Assert.Equal("NOMINAL", response.RiskLevel);
@@ -334,13 +315,9 @@ public class AiSuggestionServiceExtendedTests
     }
 }
 
-// ============================================================
-// DAM METADATA EXTENDED TESTS
-// TC-M1-03, TC-M1-04, TC-M1-05
-// ============================================================
 public class DamMetadataExtendedTests
 {
-    // TC-M1-04 — Case-insensitive lookup for all valid dams
+    // Tests that dam lookup correctly resolves dam identifiers in a case-insensitive manner
     [Theory]
     [InlineData("ERAI", "erai")]
     [InlineData("Erai", "erai")]
@@ -353,7 +330,7 @@ public class DamMetadataExtendedTests
         Assert.Equal(expectedId, dam.Id);
     }
 
-    // TC-M1-05 — WarningThreshold is exactly 85% for all 4 dams
+    // Tests that warning threshold strictly equals 85% of total capacity for all registered dams
     [Theory]
     [InlineData("erai")]
     [InlineData("khadakwasla")]
@@ -366,7 +343,7 @@ public class DamMetadataExtendedTests
         Assert.Equal(expected, meta.WarningThresholdM3, precision: 0);
     }
 
-    // TC-M1-02 — Registry contains exactly 4 dams
+    // Tests that the dam registry contains exactly four monitored dams
     [Fact]
     public void GetRegistry_ContainsExactlyFourDams()
     {
@@ -374,7 +351,7 @@ public class DamMetadataExtendedTests
         Assert.Equal(4, registry.Count);
     }
 
-    // TC-M1-03 — Null dam ID fallback to Erai
+    // Tests that a null dam ID safely falls back to default Erai dam metadata
     [Fact]
     public void Get_NullDamId_FallsBackToErai()
     {
@@ -382,7 +359,7 @@ public class DamMetadataExtendedTests
         Assert.Equal("erai", dam.Id);
     }
 
-    // TC-M1-03 — Empty dam ID fallback to Erai
+    // Tests that an empty dam ID string safely falls back to default Erai dam metadata
     [Fact]
     public void Get_EmptyDamId_FallsBackToErai()
     {
@@ -390,7 +367,7 @@ public class DamMetadataExtendedTests
         Assert.Equal("erai", dam.Id);
     }
 
-    // TC-M1-03 — Whitespace-only dam ID fallback to Erai
+    // Tests that a whitespace-only dam ID string safely falls back to default Erai dam metadata
     [Fact]
     public void Get_WhitespaceDamId_FallsBackToErai()
     {
@@ -398,7 +375,7 @@ public class DamMetadataExtendedTests
         Assert.Equal("erai", dam.Id);
     }
 
-    // All dams have non-empty, non-null downstream villages
+    // Tests that all registered dams have non-empty downstream village lists for emergency notifications
     [Theory]
     [InlineData("erai")]
     [InlineData("khadakwasla")]
@@ -413,17 +390,14 @@ public class DamMetadataExtendedTests
     }
 }
 
-// ============================================================
-// RUNOFF FORMULA & GATE PERCENTAGE MATHEMATICAL TESTS
-// ============================================================
 public class RunoffFormulaTests
 {
-    // Verify projected inflow formula: (rain/1000) * catchment * runoff
+    // Tests that the rational runoff equation calculates projected inflow volume accurately based on rainfall and catchment area
     [Theory]
-    [InlineData("erai", 10.0, 439.33e6 * 0.60 * 10.0 / 1000.0)]    // 2,635,980
-    [InlineData("erai", 0.0, 0.0)]                                     // Zero rain = zero inflow
-    [InlineData("erai", 100.0, 439.33e6 * 0.60 * 100.0 / 1000.0)]   // 26,359,800
-    [InlineData("khadakwasla", 50.0, 501e6 * 0.65 * 50.0 / 1000.0)] // 16,282,500
+    [InlineData("erai", 10.0, 439.33e6 * 0.60 * 10.0 / 1000.0)]
+    [InlineData("erai", 0.0, 0.0)]
+    [InlineData("erai", 100.0, 439.33e6 * 0.60 * 100.0 / 1000.0)]
+    [InlineData("khadakwasla", 50.0, 501e6 * 0.65 * 50.0 / 1000.0)]
     public void ProjectedInflow_Formula_IsCorrect(string damId, double rainfallMm, double expectedInflowM3)
     {
         var meta = DamMetadata.Get(damId);
@@ -431,13 +405,13 @@ public class RunoffFormulaTests
         Assert.Equal(expectedInflowM3, calculated, precision: 0);
     }
 
-    // Gate percentage formula with Math.Clamp
+    // Tests that the gate aperture percentage calculation accurately scales and clamps values within [0%, 100%]
     [Theory]
-    [InlineData(0.0, 800.0, 0.0)]        // Zero outflow → 0%
-    [InlineData(400.0, 800.0, 50.0)]     // Half discharge → 50%
-    [InlineData(800.0, 800.0, 100.0)]    // Max discharge → 100%
-    [InlineData(1600.0, 800.0, 100.0)]   // Over max → clamped to 100%
-    [InlineData(-100.0, 800.0, 0.0)]     // Negative → clamped to 0%
+    [InlineData(0.0, 800.0, 0.0)]
+    [InlineData(400.0, 800.0, 50.0)]
+    [InlineData(800.0, 800.0, 100.0)]
+    [InlineData(1600.0, 800.0, 100.0)]
+    [InlineData(-100.0, 800.0, 0.0)]
     public void GatePercentage_Formula_IsCorrectAndClamped(
         double outflow, double maxDischarge, double expectedGate)
     {

@@ -30,3 +30,5 @@ tempCodeRunnerFile.*
 node_modules/
 playwright-report/
 test-results/
+[Tt]est[Rr]esults/
+*.trx

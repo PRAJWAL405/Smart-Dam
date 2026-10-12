@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Dam Control System — STQA Test Execution Report</title>
+  <style>
+    :root { --bg: #0f172a; --card: #1e293b; --border: #334155; --text: #e2e8f0; --muted: #94a3b8; --pass: #10b981; --fail: #ef4444; --accent: #0ea5e9; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 32px 16px; line-height: 1.5; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { background: linear-gradient(135deg, #1e293b 0%, #0c4a6e 100%); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .header h1 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .header p { color: var(--muted); font-size: 14px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+    .stat-card .label { font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .stat-card .value { font-size: 28px; font-weight: 700; }
+    .stat-card.pass .value { color: var(--pass); }
+    .stat-card.fail .value { color: var(--fail); }
+    .stat-card.accent .value { color: var(--accent); }
+    .section-title { font-size: 18px; font-weight: 600; margin: 24px 0 12px; color: #fff; display: flex; align-items: center; justify-content: space-between; }
+    .table-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
+    th { background: #111827; color: var(--muted); font-weight: 600; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+    td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background: rgba(255,255,255,0.02); }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .badge-pass { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-fail { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-req { background: rgba(14, 165, 233, 0.15); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.3); font-family: monospace; }
+    .code { font-family: monospace; font-size: 12px; color: #cbd5e1; }
+    .rule { font-family: monospace; font-size: 11px; color: #a5f3fc; background: rgba(0,0,0,0.25); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
+    .footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Smart Dam Control System — STQA Test Execution Report</h1>
+      <p>Automated Software Testing & Quality Assurance Verification Matrix • Generated on 2026-10-12 23:12:03</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card accent">
+        <div class="label">Total Test Cases</div>
+        <div class="value">79</div>
+      </div>
+      <div class="stat-card pass">
+        <div class="label">Tests Passed</div>
+        <div class="value">79</div>
+      </div>
+      <div class="stat-card fail">
+        <div class="label">Tests Failed</div>
+        <div class="value">0</div>
+      </div>
+      <div class="stat-card pass">
+        <div class="label">Pass Rate</div>
+        <div class="value">100%</div>
+      </div>
+      <div class="stat-card accent">
+        <div class="label">Execution Duration</div>
+        <div class="value">16.16s</div>
+      </div>
+    </div>
+    <div class="section-title">
+      <span>Module: AI Decision Advisory</span>
+      <span style="font-size: 13px; font-weight: normal; color: var(--muted);">11 Test Cases</span>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 120px;">Req ID</th>
+            <th style="width: 260px;">Test Case / Method</th>
+            <th>Requirement Objective & Verification Rule</th>
+            <th style="width: 90px; text-align: center;">Status</th>
+            <th style="width: 90px; text-align: right;">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-01</span></td>
+            <td><strong style="color: #fff;">Critical Flood Alert Advisory</strong><br><span class="code">AiSuggestionServiceTests.GenerateRecommendation_WhenFloodAlertActive_ReturnsCritical</span></td>
+            <td>Ensure active flood alert forces AI risk classification to CRITICAL with high confidence score and immediate gate advisory.<br><span class="rule">Invariant: FloodAlert == true => Risk == 'CRITICAL' && Confidence >= 98%</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">4.94ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-02</span></td>
+            <td><strong style="color: #fff;">Elevated Volume Warning Advisory</strong><br><span class="code">AiSuggestionServiceTests.GenerateRecommendation_WhenVolumeHigh_ReturnsWarning</span></td>
+            <td>Ensure reservoir volume > 85% triggers WARNING risk level with proactive gate schedule recommendation.<br><span class="rule">Invariant: VolumeRatio > 0.85 => Risk == 'WARNING'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">5.35ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-03</span></td>
+            <td><strong style="color: #fff;">Nominal Operating Advisory</strong><br><span class="code">AiSuggestionServiceTests.GenerateRecommendation_WhenNormal_ReturnsNominal</span></td>
+            <td>Ensure reservoir volume < 85% with no alerts triggers NOMINAL risk level.<br><span class="rule">Invariant: VolumeRatio < 0.85 => Risk == 'NOMINAL'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">1783.19ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-04</span></td>
+            <td><strong style="color: #fff;">BVA: 95% Severe Capacity Risk</strong><br><span class="code">AiSuggestionServiceExtendedTests.GenerateRecommendation_VolumeAt95Percent_ReturnsCritical</span></td>
+            <td>Verify volume >= 95% triggers CRITICAL emergency risk.<br><span class="rule">Invariant: VolumeRatio >= 0.95 => Risk == 'CRITICAL'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">4.25ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-05</span></td>
+            <td><strong style="color: #fff;">BVA: 83% Warning Threshold</strong><br><span class="code">AiSuggestionServiceExtendedTests.GenerateRecommendation_VolumeAt83Percent_ReturnsWarning</span></td>
+            <td>Verify volume >= 83% triggers WARNING risk advisory.<br><span class="rule">Invariant: VolumeRatio >= 0.83 => Risk == 'WARNING'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">1782.71ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-06</span></td>
+            <td><strong style="color: #fff;">BVA: 82.9% Nominal Boundary</strong><br><span class="code">AiSuggestionServiceExtendedTests.GenerateRecommendation_VolumeAt82Point9Percent_ReturnsNominal</span></td>
+            <td>Verify volume at 82.9% (below 83% threshold) returns NOMINAL risk.<br><span class="rule">Invariant: VolumeRatio == 0.829 => Risk == 'NOMINAL'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">5.71ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-07</span></td>
+            <td><strong style="color: #fff;">BVA: 94.9% Warning Boundary</strong><br><span class="code">AiSuggestionServiceExtendedTests.GenerateRecommendation_VolumeAt94Point9Percent_ReturnsWarning</span></td>
+            <td>Verify volume at 94.9% (below 95% critical threshold) returns WARNING risk.<br><span class="rule">Invariant: VolumeRatio == 0.949 => Risk == 'WARNING'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">4.51ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-08</span></td>
+            <td><strong style="color: #fff;">Actionable Checklist Completeness</strong><br><span class="code">AiSuggestionServiceExtendedTests.GenerateRecommendation_AllRiskLevels_HaveNonEmptySuggestedActions(floodAlert: False, volumeRatio: 0.69999999999999996, expectedRisk: "NOMINAL")</span></td>
+            <td>Verify every evaluated risk category provides non-empty operational action items for operators.<br><span class="rule">Invariant: SuggestedActions.Count > 0 && ConfidenceScore > 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">1.84ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-08</span></td>
+            <td><strong style="color: #fff;">Actionable Checklist Completeness</strong><br><span class="code">AiSuggestionServiceExtendedTests.GenerateRecommendation_AllRiskLevels_HaveNonEmptySuggestedActions(floodAlert: False, volumeRatio: 0.88, expectedRisk: "WARNING")</span></td>
+            <td>Verify every evaluated risk category provides non-empty operational action items for operators.<br><span class="rule">Invariant: SuggestedActions.Count > 0 && ConfidenceScore > 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">3.37ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-08</span></td>
+            <td><strong style="color: #fff;">Actionable Checklist Completeness</strong><br><span class="code">AiSuggestionServiceExtendedTests.GenerateRecommendation_AllRiskLevels_HaveNonEmptySuggestedActions(floodAlert: True, volumeRatio: 0.94999999999999996, expectedRisk: "CRITICAL")</span></td>
+            <td>Verify every evaluated risk category provides non-empty operational action items for operators.<br><span class="rule">Invariant: SuggestedActions.Count > 0 && ConfidenceScore > 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">5.78ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M5-09</span></td>
+            <td><strong style="color: #fff;">Cold-Start Resilience</strong><br><span class="code">AiSuggestionServiceExtendedTests.GenerateRecommendation_NoPriorData_DefaultsToNominal</span></td>
+            <td>Ensure system defaults safely to NOMINAL advisory when no prior historical telemetry exists.<br><span class="rule">Invariant: ColdStart => Risk == 'NOMINAL' && AdvisoryMessage != null</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">2.81ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="section-title">
+      <span>Module: Authority Approval Workflow</span>
+      <span style="font-size: 13px; font-weight: normal; color: var(--muted);">5 Test Cases</span>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 120px;">Req ID</th>
+            <th style="width: 260px;">Test Case / Method</th>
+            <th>Requirement Objective & Verification Rule</th>
+            <th style="width: 90px; text-align: center;">Status</th>
+            <th style="width: 90px; text-align: right;">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-req">REQ-M9-01</span></td>
+            <td><strong style="color: #fff;">Decision Submission</strong><br><span class="code">ApiIntegrationTests.SubmitDecision_WhenLogExists_SetsStatusToPendingAuthority</span></td>
+            <td>POST /api/v1/dam/{damId}/submit-decision transitions control log status to PENDING_AUTHORITY.<br><span class="rule">Invariant: ApprovalStatus == 'PENDING_AUTHORITY'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">749.4ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M9-02</span></td>
+            <td><strong style="color: #fff;">Authority Approval Action</strong><br><span class="code">ApiIntegrationTests.AuthorityAction_Approve_SetsStatusApproved</span></td>
+            <td>POST /api/v1/dam/{damId}/authority-action with action=APPROVE transitions log to APPROVED status.<br><span class="rule">Invariant: ApprovalStatus == 'APPROVED'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">705.08ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M9-03</span></td>
+            <td><strong style="color: #fff;">Authority Rejection & Manual Override</strong><br><span class="code">ApiIntegrationTests.AuthorityAction_Reject_WithManualOutflow_SetsStatusRejected</span></td>
+            <td>POST /api/v1/dam/{damId}/authority-action with action=REJECT applies manual outflow override.<br><span class="rule">Invariant: ApprovalStatus == 'REJECTED' && RecommendedOutflow == ManualOutflow</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">718.49ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M9-04</span></td>
+            <td><strong style="color: #fff;">Authority Action Safety Fallback</strong><br><span class="code">ApiIntegrationTests.AuthorityAction_InvalidActionString_FallsToReject</span></td>
+            <td>POST /api/v1/dam/{damId}/authority-action with unrecognized action string defaults safely to rejection.<br><span class="rule">Invariant: ApprovalStatus == 'REJECTED'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">727.73ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M9-05</span></td>
+            <td><strong style="color: #fff;">Manual Override Gate Clamping</strong><br><span class="code">ApiIntegrationTests.AuthorityAction_ManualOutflowOverMax_GateClampsAt100Percent</span></td>
+            <td>POST /api/v1/dam/{damId}/authority-action with manual outflow > MaxSafe clamps gate actuator at 100%.<br><span class="rule">Invariant: GateOpenPercentage == 100.0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">867.74ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="section-title">
+      <span>Module: Dam Metadata & Topologies</span>
+      <span style="font-size: 13px; font-weight: normal; color: var(--muted);">23 Test Cases</span>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 120px;">Req ID</th>
+            <th style="width: 260px;">Test Case / Method</th>
+            <th>Requirement Objective & Verification Rule</th>
+            <th style="width: 90px; text-align: center;">Status</th>
+            <th style="width: 90px; text-align: right;">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-01</span></td>
+            <td><strong style="color: #fff;">Multi-Reservoir System Topology</strong><br><span class="code">DamMetadataTests.GetRegistry_ContainsExpectedDams</span></td>
+            <td>Verify all 4 registered dams (Erai, Khadakwasla, Panshet, Mulshi) exist in the system registry.<br><span class="rule">Invariant: Registry.Count == 4 && Contains(erai, khadakwasla, panshet, mulshi)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">15.2ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-02</span></td>
+            <td><strong style="color: #fff;">Strict Registry Cardinality</strong><br><span class="code">DamMetadataExtendedTests.GetRegistry_ContainsExactlyFourDams</span></td>
+            <td>Verify registry contains exactly four valid dam configurations without extraneous entries.<br><span class="rule">Invariant: Registry.Count == 4</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">7.85ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-03</span></td>
+            <td><strong style="color: #fff;">Dam Lookup Fault Tolerance</strong><br><span class="code">DamMetadataTests.Get_UnknownDam_FallsBackToErai</span></td>
+            <td>Ensure unrecognized dam IDs fall back safely to default Erai dam configuration without throwing exceptions.<br><span class="rule">Invariant: Get(unknown_id).Id == 'erai'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.49ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-04</span></td>
+            <td><strong style="color: #fff;">Null Identifier Handling</strong><br><span class="code">DamMetadataExtendedTests.Get_NullDamId_FallsBackToErai</span></td>
+            <td>Verify passing null dam ID string defaults safely to Erai dam.<br><span class="rule">Invariant: Get(null).Id == 'erai'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.22ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-05</span></td>
+            <td><strong style="color: #fff;">Empty Identifier Handling</strong><br><span class="code">DamMetadataExtendedTests.Get_EmptyDamId_FallsBackToErai</span></td>
+            <td>Verify passing empty dam ID string defaults safely to Erai dam.<br><span class="rule">Invariant: Get('').Id == 'erai'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.34ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-06</span></td>
+            <td><strong style="color: #fff;">Whitespace Identifier Handling</strong><br><span class="code">DamMetadataExtendedTests.Get_WhitespaceDamId_FallsBackToErai</span></td>
+            <td>Verify passing whitespace-only dam ID string defaults safely to Erai dam.<br><span class="rule">Invariant: Get('   ').Id == 'erai'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">2.45ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-07</span></td>
+            <td><strong style="color: #fff;">Case-Insensitive Identifier Resolution</strong><br><span class="code">DamMetadataExtendedTests.Get_CaseInsensitive_ResolvesCorrectDam(input: "Erai", expectedId: "erai")</span></td>
+            <td>Verify dam identifier matching is case-insensitive ('ERAI', 'Panshet', 'MULSHI').<br><span class="rule">Invariant: Get(Upper(id)).Id == Lower(id)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-07</span></td>
+            <td><strong style="color: #fff;">Case-Insensitive Identifier Resolution</strong><br><span class="code">DamMetadataExtendedTests.Get_CaseInsensitive_ResolvesCorrectDam(input: "ERAI", expectedId: "erai")</span></td>
+            <td>Verify dam identifier matching is case-insensitive ('ERAI', 'Panshet', 'MULSHI').<br><span class="rule">Invariant: Get(Upper(id)).Id == Lower(id)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.01ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-07</span></td>
+            <td><strong style="color: #fff;">Case-Insensitive Identifier Resolution</strong><br><span class="code">DamMetadataExtendedTests.Get_CaseInsensitive_ResolvesCorrectDam(input: "KHADAKWASLA", expectedId: "khadakwasla")</span></td>
+            <td>Verify dam identifier matching is case-insensitive ('ERAI', 'Panshet', 'MULSHI').<br><span class="rule">Invariant: Get(Upper(id)).Id == Lower(id)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.58ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-07</span></td>
+            <td><strong style="color: #fff;">Case-Insensitive Identifier Resolution</strong><br><span class="code">DamMetadataExtendedTests.Get_CaseInsensitive_ResolvesCorrectDam(input: "MULSHI", expectedId: "mulshi")</span></td>
+            <td>Verify dam identifier matching is case-insensitive ('ERAI', 'Panshet', 'MULSHI').<br><span class="rule">Invariant: Get(Upper(id)).Id == Lower(id)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.38ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-07</span></td>
+            <td><strong style="color: #fff;">Case-Insensitive Identifier Resolution</strong><br><span class="code">DamMetadataExtendedTests.Get_CaseInsensitive_ResolvesCorrectDam(input: "Panshet", expectedId: "panshet")</span></td>
+            <td>Verify dam identifier matching is case-insensitive ('ERAI', 'Panshet', 'MULSHI').<br><span class="rule">Invariant: Get(Upper(id)).Id == Lower(id)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.02ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-08</span></td>
+            <td><strong style="color: #fff;">Physical Reservoir Characteristics</strong><br><span class="code">DamMetadataTests.DamMetadata_HasAccurateCapacitiesAndSafeDischarge(id: "erai", expectedCap: 226500000, expectedSafeDischarge: 800)</span></td>
+            <td>Validate maximum storage capacity (m³) and safe discharge rating (m³/s) per dam specifications.<br><span class="rule">Invariant: MaxCapacityM3 > 0 && MaxSafeDischargeM3s > 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.02ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-08</span></td>
+            <td><strong style="color: #fff;">Physical Reservoir Characteristics</strong><br><span class="code">DamMetadataTests.DamMetadata_HasAccurateCapacitiesAndSafeDischarge(id: "khadakwasla", expectedCap: 56000000, expectedSafeDischarge: 500)</span></td>
+            <td>Validate maximum storage capacity (m³) and safe discharge rating (m³/s) per dam specifications.<br><span class="rule">Invariant: MaxCapacityM3 > 0 && MaxSafeDischargeM3s > 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.01ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-08</span></td>
+            <td><strong style="color: #fff;">Physical Reservoir Characteristics</strong><br><span class="code">DamMetadataTests.DamMetadata_HasAccurateCapacitiesAndSafeDischarge(id: "mulshi", expectedCap: 522000000, expectedSafeDischarge: 1500)</span></td>
+            <td>Validate maximum storage capacity (m³) and safe discharge rating (m³/s) per dam specifications.<br><span class="rule">Invariant: MaxCapacityM3 > 0 && MaxSafeDischargeM3s > 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">21.23ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-08</span></td>
+            <td><strong style="color: #fff;">Physical Reservoir Characteristics</strong><br><span class="code">DamMetadataTests.DamMetadata_HasAccurateCapacitiesAndSafeDischarge(id: "panshet", expectedCap: 294000000, expectedSafeDischarge: 1000)</span></td>
+            <td>Validate maximum storage capacity (m³) and safe discharge rating (m³/s) per dam specifications.<br><span class="rule">Invariant: MaxCapacityM3 > 0 && MaxSafeDischargeM3s > 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.86ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-09</span></td>
+            <td><strong style="color: #fff;">85% Warning Invariant</strong><br><span class="code">DamMetadataExtendedTests.DamMetadata_WarningThreshold_IsExactly85Percent(damId: "erai")</span></td>
+            <td>Verify warning threshold is computed strictly at 85% of total gross storage capacity.<br><span class="rule">Invariant: WarningThresholdM3 == MaxCapacityM3 * 0.85</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.54ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-09</span></td>
+            <td><strong style="color: #fff;">85% Warning Invariant</strong><br><span class="code">DamMetadataExtendedTests.DamMetadata_WarningThreshold_IsExactly85Percent(damId: "khadakwasla")</span></td>
+            <td>Verify warning threshold is computed strictly at 85% of total gross storage capacity.<br><span class="rule">Invariant: WarningThresholdM3 == MaxCapacityM3 * 0.85</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.02ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-09</span></td>
+            <td><strong style="color: #fff;">85% Warning Invariant</strong><br><span class="code">DamMetadataExtendedTests.DamMetadata_WarningThreshold_IsExactly85Percent(damId: "mulshi")</span></td>
+            <td>Verify warning threshold is computed strictly at 85% of total gross storage capacity.<br><span class="rule">Invariant: WarningThresholdM3 == MaxCapacityM3 * 0.85</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.01ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-09</span></td>
+            <td><strong style="color: #fff;">85% Warning Invariant</strong><br><span class="code">DamMetadataExtendedTests.DamMetadata_WarningThreshold_IsExactly85Percent(damId: "panshet")</span></td>
+            <td>Verify warning threshold is computed strictly at 85% of total gross storage capacity.<br><span class="rule">Invariant: WarningThresholdM3 == MaxCapacityM3 * 0.85</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.46ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-10</span></td>
+            <td><strong style="color: #fff;">Downstream Village Notification Registry</strong><br><span class="code">DamMetadataExtendedTests.DamMetadata_AllDams_HaveNonEmptyDownstreamVillages(damId: "erai")</span></td>
+            <td>Verify every dam has populated downstream settlements for emergency flood warnings.<br><span class="rule">Invariant: DownstreamVillages.Count > 0 && NonEmpty(villageName)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-10</span></td>
+            <td><strong style="color: #fff;">Downstream Village Notification Registry</strong><br><span class="code">DamMetadataExtendedTests.DamMetadata_AllDams_HaveNonEmptyDownstreamVillages(damId: "khadakwasla")</span></td>
+            <td>Verify every dam has populated downstream settlements for emergency flood warnings.<br><span class="rule">Invariant: DownstreamVillages.Count > 0 && NonEmpty(villageName)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.02ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-10</span></td>
+            <td><strong style="color: #fff;">Downstream Village Notification Registry</strong><br><span class="code">DamMetadataExtendedTests.DamMetadata_AllDams_HaveNonEmptyDownstreamVillages(damId: "mulshi")</span></td>
+            <td>Verify every dam has populated downstream settlements for emergency flood warnings.<br><span class="rule">Invariant: DownstreamVillages.Count > 0 && NonEmpty(villageName)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.58ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M1-10</span></td>
+            <td><strong style="color: #fff;">Downstream Village Notification Registry</strong><br><span class="code">DamMetadataExtendedTests.DamMetadata_AllDams_HaveNonEmptyDownstreamVillages(damId: "panshet")</span></td>
+            <td>Verify every dam has populated downstream settlements for emergency flood warnings.<br><span class="rule">Invariant: DownstreamVillages.Count > 0 && NonEmpty(villageName)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">18.73ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="section-title">
+      <span>Module: Emergency Alert Management</span>
+      <span style="font-size: 13px; font-weight: normal; color: var(--muted);">4 Test Cases</span>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 120px;">Req ID</th>
+            <th style="width: 260px;">Test Case / Method</th>
+            <th>Requirement Objective & Verification Rule</th>
+            <th style="width: 90px; text-align: center;">Status</th>
+            <th style="width: 90px; text-align: right;">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-req">REQ-M6-01</span></td>
+            <td><strong style="color: #fff;">Emergency Alert Broadcast</strong><br><span class="code">ApiIntegrationTests.CreateEmergencyAlert_ValidInputs_Returns200AndCreatesAlert</span></td>
+            <td>POST /api/v1/dam/{damId}/emergency-alert records active alert with priority and shift officer name.<br><span class="rule">Invariant: StatusCode == 200 && Alert.Resolved == false && Alert.Id > 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">67.11ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M6-02</span></td>
+            <td><strong style="color: #fff;">Active Alerts Query</strong><br><span class="code">ApiIntegrationTests.GetActiveAlerts_AfterCreatingAlerts_ReturnsOnlyUnresolved</span></td>
+            <td>GET /api/v1/dam/alerts returns only active unresolved emergency notifications.<br><span class="rule">Invariant: All(alert => alert.Resolved == false)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">219.2ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M6-03</span></td>
+            <td><strong style="color: #fff;">Alert Resolution Lifecycle</strong><br><span class="code">ApiIntegrationTests.ResolveAlert_ValidId_Returns200AndRemovesFromActiveList</span></td>
+            <td>POST /api/v1/dam/alert/{id}/resolve marks alert as resolved and removes from active broadcast list.<br><span class="rule">Invariant: StatusCode == 200 && !ActiveAlerts.Contains(id)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">180.63ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M6-04</span></td>
+            <td><strong style="color: #fff;">Alert Resolution Invalid ID</strong><br><span class="code">ApiIntegrationTests.ResolveAlert_NonExistentId_Returns404</span></td>
+            <td>POST /api/v1/dam/alert/{id}/resolve returns HTTP 404 when target alert ID is non-existent.<br><span class="rule">Invariant: StatusCode == 404</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">57.74ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="section-title">
+      <span>Module: General STQA Invariant</span>
+      <span style="font-size: 13px; font-weight: normal; color: var(--muted);">1 Test Cases</span>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 120px;">Req ID</th>
+            <th style="width: 260px;">Test Case / Method</th>
+            <th>Requirement Objective & Verification Rule</th>
+            <th style="width: 90px; text-align: center;">Status</th>
+            <th style="width: 90px; text-align: right;">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-req">REQ-GEN-01</span></td>
+            <td><strong style="color: #fff;">Generate_StqaHtmlReport_WithRequirements</strong><br><span class="code">ReportGenerationTest.Generate_StqaHtmlReport_WithRequirements</span></td>
+            <td>Verify operational invariant and assertion constraints for Generate_StqaHtmlReport_WithRequirements<br><span class="rule">Invariant: Assertions == True</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">118.84ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="section-title">
+      <span>Module: Hydraulic Gate Actuator</span>
+      <span style="font-size: 13px; font-weight: normal; color: var(--muted);">7 Test Cases</span>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 120px;">Req ID</th>
+            <th style="width: 260px;">Test Case / Method</th>
+            <th>Requirement Objective & Verification Rule</th>
+            <th style="width: 90px; text-align: center;">Status</th>
+            <th style="width: 90px; text-align: right;">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-req">REQ-M7-01</span></td>
+            <td><strong style="color: #fff;">Gate Aperture Clamping Math</strong><br><span class="code">RunoffFormulaTests.GatePercentage_Formula_IsCorrectAndClamped(outflow: -100, maxDischarge: 800, expectedGate: 0)</span></td>
+            <td>Verify gate opening percentage formula: Gate = Clamp((Outflow / MaxDischarge) * 100, 0, 100).<br><span class="rule">Invariant: 0 <= GateOpenPercentage <= 100</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.71ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M7-01</span></td>
+            <td><strong style="color: #fff;">Gate Aperture Clamping Math</strong><br><span class="code">RunoffFormulaTests.GatePercentage_Formula_IsCorrectAndClamped(outflow: 0, maxDischarge: 800, expectedGate: 0)</span></td>
+            <td>Verify gate opening percentage formula: Gate = Clamp((Outflow / MaxDischarge) * 100, 0, 100).<br><span class="rule">Invariant: 0 <= GateOpenPercentage <= 100</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.37ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M7-01</span></td>
+            <td><strong style="color: #fff;">Gate Aperture Clamping Math</strong><br><span class="code">RunoffFormulaTests.GatePercentage_Formula_IsCorrectAndClamped(outflow: 1600, maxDischarge: 800, expectedGate: 100)</span></td>
+            <td>Verify gate opening percentage formula: Gate = Clamp((Outflow / MaxDischarge) * 100, 0, 100).<br><span class="rule">Invariant: 0 <= GateOpenPercentage <= 100</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.02ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M7-01</span></td>
+            <td><strong style="color: #fff;">Gate Aperture Clamping Math</strong><br><span class="code">RunoffFormulaTests.GatePercentage_Formula_IsCorrectAndClamped(outflow: 400, maxDischarge: 800, expectedGate: 50)</span></td>
+            <td>Verify gate opening percentage formula: Gate = Clamp((Outflow / MaxDischarge) * 100, 0, 100).<br><span class="rule">Invariant: 0 <= GateOpenPercentage <= 100</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M7-01</span></td>
+            <td><strong style="color: #fff;">Gate Aperture Clamping Math</strong><br><span class="code">RunoffFormulaTests.GatePercentage_Formula_IsCorrectAndClamped(outflow: 800, maxDischarge: 800, expectedGate: 100)</span></td>
+            <td>Verify gate opening percentage formula: Gate = Clamp((Outflow / MaxDischarge) * 100, 0, 100).<br><span class="rule">Invariant: 0 <= GateOpenPercentage <= 100</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M7-02</span></td>
+            <td><strong style="color: #fff;">Gate Closed Invariant</strong><br><span class="code">HydrologicalEngineExtendedTests.Evaluate_GatePercentage_IsZero_WhenOutflowIsZero</span></td>
+            <td>Verify gate aperture is 0% when target outflow is 0 m³/s.<br><span class="rule">Invariant: Outflow == 0 => GatePercentage == 0%</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">2.83ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M7-03</span></td>
+            <td><strong style="color: #fff;">Full Gate Opening Invariant</strong><br><span class="code">HydrologicalEngineExtendedTests.Evaluate_GatePercentage_IsHundred_WhenOutflowIsMaxSafeDischarge</span></td>
+            <td>Verify gate aperture is 100% when outflow equals maximum safe discharge capacity.<br><span class="rule">Invariant: Outflow == MaxSafe => GatePercentage == 100%</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">19.47ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="section-title">
+      <span>Module: Hydrological Engine</span>
+      <span style="font-size: 13px; font-weight: normal; color: var(--muted);">16 Test Cases</span>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 120px;">Req ID</th>
+            <th style="width: 260px;">Test Case / Method</th>
+            <th>Requirement Objective & Verification Rule</th>
+            <th style="width: 90px; text-align: center;">Status</th>
+            <th style="width: 90px; text-align: right;">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-01</span></td>
+            <td><strong style="color: #fff;">Rational Inflow Runoff Formula</strong><br><span class="code">RunoffFormulaTests.ProjectedInflow_Formula_IsCorrect(damId: "erai", rainfallMm: 0, expectedInflowM3: 0)</span></td>
+            <td>Verify inflow computation: Q = CatchmentArea × RunoffCoefficient × (Rainfall / 1000).<br><span class="rule">Invariant: Inflow == (Rainfall / 1000) * Area * Coeff</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">1.17ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-01</span></td>
+            <td><strong style="color: #fff;">Rational Inflow Runoff Formula</strong><br><span class="code">RunoffFormulaTests.ProjectedInflow_Formula_IsCorrect(damId: "erai", rainfallMm: 10, expectedInflowM3: 2635980)</span></td>
+            <td>Verify inflow computation: Q = CatchmentArea × RunoffCoefficient × (Rainfall / 1000).<br><span class="rule">Invariant: Inflow == (Rainfall / 1000) * Area * Coeff</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.02ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-01</span></td>
+            <td><strong style="color: #fff;">Rational Inflow Runoff Formula</strong><br><span class="code">RunoffFormulaTests.ProjectedInflow_Formula_IsCorrect(damId: "erai", rainfallMm: 100, expectedInflowM3: 26359800)</span></td>
+            <td>Verify inflow computation: Q = CatchmentArea × RunoffCoefficient × (Rainfall / 1000).<br><span class="rule">Invariant: Inflow == (Rainfall / 1000) * Area * Coeff</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">16.01ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-01</span></td>
+            <td><strong style="color: #fff;">Rational Inflow Runoff Formula</strong><br><span class="code">RunoffFormulaTests.ProjectedInflow_Formula_IsCorrect(damId: "khadakwasla", rainfallMm: 50, expectedInflowM3: 16282500)</span></td>
+            <td>Verify inflow computation: Q = CatchmentArea × RunoffCoefficient × (Rainfall / 1000).<br><span class="rule">Invariant: Inflow == (Rainfall / 1000) * Area * Coeff</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">0.02ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-02</span></td>
+            <td><strong style="color: #fff;">Nominal Water Level Operation</strong><br><span class="code">HydrologicalEngineTests.Evaluate_SafeConditions_NoOutflowAndNoFloodAlert</span></td>
+            <td>Ensure no proactive outflow is released and no flood alert triggers when water level is below 85% capacity.<br><span class="rule">Invariant: ProjectedVol <= 85% => Outflow = 0 && Alert = false</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">1762.06ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-03</span></td>
+            <td><strong style="color: #fff;">Proactive Discharge Calculation</strong><br><span class="code">HydrologicalEngineTests.Evaluate_ProactiveDischarge_ReleasesRequiredOutflowWithoutAlert</span></td>
+            <td>Calculate required 24-hour proactive outflow when projected volume exceeds 85% threshold within safe discharge caps.<br><span class="rule">Invariant: ProjectedVol > 85% => Outflow = (ExcessVol / 86400) <= MaxSafe</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">3.29ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-04</span></td>
+            <td><strong style="color: #fff;">Emergency Flood Alert & Discharge Clamping</strong><br><span class="code">HydrologicalEngineTests.Evaluate_ExtremeRainfall_TriggersFloodAlertAndCapsDischarge</span></td>
+            <td>Trigger emergency flood alert and clamp outflow strictly at MaxSafeDischarge when excess exceeds discharge capability.<br><span class="rule">Invariant: RequiredOutflow > MaxSafe => Alert = true && Outflow = MaxSafe</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">3.11ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-05</span></td>
+            <td><strong style="color: #fff;">Hydrological Simulation Isolation</strong><br><span class="code">HydrologicalEngineTests.SimulateControlLogic_DoesNotPersistToDatabase</span></td>
+            <td>Verify simulation mode computes water balance projections without persisting logs or states to the database.<br><span class="rule">Invariant: DB.Logs.Count == Unchanged && Result.Status.Contains('[SIMULATION]')</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">49.63ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-06</span></td>
+            <td><strong style="color: #fff;">Zero Precipitation Inflow Boundary</strong><br><span class="code">HydrologicalEngineExtendedTests.Evaluate_ZeroRainfall_InflowIsZero_NoAlert</span></td>
+            <td>Verify 0 mm rainfall produces exactly 0 m³ inflow with zero flood alert.<br><span class="rule">Invariant: Rainfall == 0 => Inflow == 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">4.06ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-07</span></td>
+            <td><strong style="color: #fff;">BVA: Exact Threshold Boundary</strong><br><span class="code">HydrologicalEngineExtendedTests.Evaluate_ProjectedVolumeExactlyAtThreshold_NoDischarge</span></td>
+            <td>Verify projected volume exactly equal to warning threshold does not trigger proactive outflow (strictly > threshold rule).<br><span class="rule">Invariant: ProjectedVol == 85% => Outflow == 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">2.5ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-08</span></td>
+            <td><strong style="color: #fff;">BVA: 1 m³ Above Threshold</strong><br><span class="code">HydrologicalEngineExtendedTests.Evaluate_ProjectedVolumeOneAboveThreshold_MinimalDischargeTriggered</span></td>
+            <td>Verify projected volume at threshold + 1 m³ initiates calculated minimal discharge.<br><span class="rule">Invariant: ProjectedVol == 85% + 1 => Outflow > 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">3.78ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-09</span></td>
+            <td><strong style="color: #fff;">State Machine: Nominal to Warning</strong><br><span class="code">HydrologicalEngineExtendedTests.Evaluate_StateTransition_NominalToWarning</span></td>
+            <td>Verify state transition from NOMINAL to WARNING upon water level increase above threshold.<br><span class="rule">Invariant: Transition(Nominal -> Warning)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">14.01ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-10</span></td>
+            <td><strong style="color: #fff;">State Machine: Warning to Critical</strong><br><span class="code">HydrologicalEngineExtendedTests.Evaluate_StateTransition_WarningToCritical</span></td>
+            <td>Verify state transition from WARNING to CRITICAL upon extreme rainfall triggering flood alert.<br><span class="rule">Invariant: Transition(Warning -> Critical)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">3.85ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-11</span></td>
+            <td><strong style="color: #fff;">Reservoir Parameter Isolation: Khadakwasla</strong><br><span class="code">HydrologicalEngineExtendedTests.Evaluate_Khadakwasla_UsesOwnThreshold_NotErais</span></td>
+            <td>Ensure Khadakwasla uses its specific 47.6M m³ threshold and 500 m³/s safe discharge without leaking Erai parameters.<br><span class="rule">Invariant: DamId == 'khadakwasla' => Threshold == 47.6M m3</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">3.28ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-12</span></td>
+            <td><strong style="color: #fff;">Reservoir Parameter Isolation: Panshet</strong><br><span class="code">HydrologicalEngineExtendedTests.Evaluate_Panshet_SafeConditions_NoAlert</span></td>
+            <td>Ensure Panshet dam correctly assesses safe operational volume below its 249.9M m³ capacity threshold.<br><span class="rule">Invariant: DamId == 'panshet' => Threshold == 249.9M m3</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">2.44ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M3-13</span></td>
+            <td><strong style="color: #fff;">Reservoir Parameter Isolation: Mulshi</strong><br><span class="code">HydrologicalEngineExtendedTests.Evaluate_Mulshi_EmergencyDischarge_CappedAtOwnMaxSafeDischarge</span></td>
+            <td>Ensure Mulshi emergency release is clamped at its specific 1500 m³/s discharge rating.<br><span class="rule">Invariant: DamId == 'mulshi' => MaxSafe == 1500 m3/s</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">1761.09ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="section-title">
+      <span>Module: RESTful API Endpoints</span>
+      <span style="font-size: 13px; font-weight: normal; color: var(--muted);">12 Test Cases</span>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 120px;">Req ID</th>
+            <th style="width: 260px;">Test Case / Method</th>
+            <th>Requirement Objective & Verification Rule</th>
+            <th style="width: 90px; text-align: center;">Status</th>
+            <th style="width: 90px; text-align: right;">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-01</span></td>
+            <td><strong style="color: #fff;">Default Status Endpoint Contract</strong><br><span class="code">ApiIntegrationTests.GetDamStatus_DefaultErai_Returns200WithStateAndLog</span></td>
+            <td>GET /api/v1/dam/status returns HTTP 200 with reservoir state and latest control log.<br><span class="rule">Invariant: StatusCode == 200 && Contains(state, latestLog)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">1924.42ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-02</span></td>
+            <td><strong style="color: #fff;">Parametric Reservoir Telemetry</strong><br><span class="code">ApiIntegrationTests.GetDamStatus_AllValidDams_Return200WithCorrectDamId(damId: "erai")</span></td>
+            <td>GET /api/v1/dam/{damId}/status returns HTTP 200 with matching dam ID for all 4 reservoirs.<br><span class="rule">Invariant: StatusCode == 200 && Response.DamId == Requested.DamId</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">68.13ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-02</span></td>
+            <td><strong style="color: #fff;">Parametric Reservoir Telemetry</strong><br><span class="code">ApiIntegrationTests.GetDamStatus_AllValidDams_Return200WithCorrectDamId(damId: "khadakwasla")</span></td>
+            <td>GET /api/v1/dam/{damId}/status returns HTTP 200 with matching dam ID for all 4 reservoirs.<br><span class="rule">Invariant: StatusCode == 200 && Response.DamId == Requested.DamId</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">77.36ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-02</span></td>
+            <td><strong style="color: #fff;">Parametric Reservoir Telemetry</strong><br><span class="code">ApiIntegrationTests.GetDamStatus_AllValidDams_Return200WithCorrectDamId(damId: "mulshi")</span></td>
+            <td>GET /api/v1/dam/{damId}/status returns HTTP 200 with matching dam ID for all 4 reservoirs.<br><span class="rule">Invariant: StatusCode == 200 && Response.DamId == Requested.DamId</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">123.95ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-02</span></td>
+            <td><strong style="color: #fff;">Parametric Reservoir Telemetry</strong><br><span class="code">ApiIntegrationTests.GetDamStatus_AllValidDams_Return200WithCorrectDamId(damId: "panshet")</span></td>
+            <td>GET /api/v1/dam/{damId}/status returns HTTP 200 with matching dam ID for all 4 reservoirs.<br><span class="rule">Invariant: StatusCode == 200 && Response.DamId == Requested.DamId</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">71.5ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-03</span></td>
+            <td><strong style="color: #fff;">Status Endpoint Fallback Tolerance</strong><br><span class="code">ApiIntegrationTests.GetDamStatus_UnknownDamId_FallsBackToEraiInsteadOf404</span></td>
+            <td>GET /api/v1/dam/{damId}/status gracefully falls back to default dam data upon unknown ID.<br><span class="rule">Invariant: StatusCode == 200 && Response.DamId == 'erai'</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">98.72ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-04</span></td>
+            <td><strong style="color: #fff;">Telemetry Update & Evaluation</strong><br><span class="code">ApiIntegrationTests.UpdateReservoirState_ValidPayload_Returns200AndCreatesControlLog</span></td>
+            <td>POST /api/v1/dam/{damId}/update-state updates reservoir level and returns newly computed control log.<br><span class="rule">Invariant: StatusCode == 200 && Response.RecommendedOutflow >= 0</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">935.01ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-05</span></td>
+            <td><strong style="color: #fff;">Payload Validation: Empty Body</strong><br><span class="code">ApiIntegrationTests.UpdateReservoirState_NullBody_ReturnsBadRequest</span></td>
+            <td>POST /api/v1/dam/{damId}/update-state returns HTTP 400 Bad Request on empty or malformed body.<br><span class="rule">Invariant: StatusCode == 400</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">108.82ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-06</span></td>
+            <td><strong style="color: #fff;">Payload Validation: Zero Volume</strong><br><span class="code">ApiIntegrationTests.UpdateReservoirState_VolumeZero_HandledGracefully</span></td>
+            <td>POST /api/v1/dam/{damId}/update-state processes minimum boundary volume (0 m³) safely.<br><span class="rule">Invariant: StatusCode == 200 && Alert == false</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">662.5ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-07</span></td>
+            <td><strong style="color: #fff;">Forecast Simulation Endpoint</strong><br><span class="code">ApiIntegrationTests.ForecastEval_ValidParams_ReturnsSimulationResult</span></td>
+            <td>GET /api/v1/dam/{damId}/forecast-eval calculates water balance without persisting to database.<br><span class="rule">Invariant: StatusCode == 200 && StatusMessage.Contains('[SIMULATION]')</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">207.73ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-08</span></td>
+            <td><strong style="color: #fff;">Forecast Simulation Zero Boundary</strong><br><span class="code">ApiIntegrationTests.ForecastEval_ZeroParams_Returns200WithSafeStatus</span></td>
+            <td>GET /api/v1/dam/{damId}/forecast-eval handles zero rainfall/volume inputs gracefully.<br><span class="rule">Invariant: StatusCode == 200 && Alert == false</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">67.21ms</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-req">REQ-M8-09</span></td>
+            <td><strong style="color: #fff;">AI Advisory Endpoint Contract</strong><br><span class="code">ApiIntegrationTests.GetAiRecommendation_DefaultErai_Returns200WithRequiredFields</span></td>
+            <td>GET /api/v1/dam/ai-recommendation returns structured riskLevel, advisoryMessage, and gate schedule.<br><span class="rule">Invariant: StatusCode == 200 && ValidRiskLevel(response.RiskLevel)</span></td>
+            <td style="text-align: center;"><span class="badge badge-pass">PASS</span></td>
+            <td style="text-align: right; font-family: monospace; color: var(--muted);">70.29ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer">
+      <p>Smart Dam Automated Hydrological Control System • STQA Quality Assurance Harness • Target Framework: .NET 10.0</p>
+    </div>
+  </div>
+</body>
+</html>

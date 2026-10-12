@@ -22,6 +22,7 @@ public class AiSuggestionServiceTests
         return (dbContext, service);
     }
 
+    // Tests that an active flood alert causes the AI service to return a CRITICAL risk level with urgent recommendations
     [Fact]
     public async Task GenerateRecommendation_WhenFloodAlertActive_ReturnsCritical()
     {
@@ -49,13 +50,13 @@ public class AiSuggestionServiceTests
         Assert.NotEmpty(response.SuggestedActions);
     }
 
+    // Tests that high reservoir volume exceeding 85% causes the AI service to return a WARNING risk level with proactive release schedule
     [Fact]
     public async Task GenerateRecommendation_WhenVolumeHigh_ReturnsWarning()
     {
         var (db, service) = CreateService(nameof(GenerateRecommendation_WhenVolumeHigh_ReturnsWarning));
         var meta = DamMetadata.Get("erai");
 
-        // 88% capacity: 226.5M * 0.88 = 199.32M
         await db.ReservoirStates.AddAsync(new ReservoirState(
             id: 0,
             damId: "erai",
@@ -83,13 +84,13 @@ public class AiSuggestionServiceTests
         Assert.Contains("PROACTIVE RELEASE", response.GateScheduleRecommendation);
     }
 
+    // Tests that safe reservoir levels below 85% with no alerts cause the AI service to return a NOMINAL risk level
     [Fact]
     public async Task GenerateRecommendation_WhenNormal_ReturnsNominal()
     {
         var (db, service) = CreateService(nameof(GenerateRecommendation_WhenNormal_ReturnsNominal));
         var meta = DamMetadata.Get("erai");
 
-        // 70% capacity
         await db.ReservoirStates.AddAsync(new ReservoirState(
             id: 0,
             damId: "erai",
